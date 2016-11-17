@@ -1,0 +1,22 @@
+- name: add jenkins apt key
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins-ci.org.key
+    state: present
+  become: yes
+
+- name: add apt repo
+  apt_repository:
+    repo: deb http://pkg.jenkins.io/debian-stable binary/
+    state: present
+  become: yes
+
+- name: install jenkins
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items:
+    - openjdk-7-jre
+    - openjdk-7-jdk
+    - jenkins
+  become: yes
